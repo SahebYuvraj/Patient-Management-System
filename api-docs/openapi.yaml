@@ -1,0 +1,201 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: 1.0.0-oas3.1
+servers:
+- url: http://localhost:4000
+  description: Generated server url
+tags:
+- name: Patient
+  description: API for managing Patients
+paths:
+  /patients/{id}:
+    put:
+      tags:
+      - Patient
+      summary: Updated Patients
+      operationId: updatePatient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+                  minLength: 0
+                email:
+                  type: string
+                  format: email
+                  minLength: 1
+                address:
+                  type: string
+                  minLength: 1
+                dateOfBirth:
+                  type: string
+                  minLength: 1
+                registeredDate:
+                  type: string
+              required:
+              - address
+              - dateOfBirth
+              - email
+              - name
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  address:
+                    type: string
+                  dateOfBirth:
+                    type: string
+    delete:
+      tags:
+      - Patient
+      summary: Delete Patients
+      operationId: deletePatient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+  /patients:
+    get:
+      tags:
+      - Patient
+      summary: Get Patients
+      operationId: getPatients
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    address:
+                      type: string
+                    dateOfBirth:
+                      type: string
+    post:
+      tags:
+      - Patient
+      summary: Create new Patients
+      operationId: createPatient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+                  minLength: 0
+                email:
+                  type: string
+                  format: email
+                  minLength: 1
+                address:
+                  type: string
+                  minLength: 1
+                dateOfBirth:
+                  type: string
+                  minLength: 1
+                registeredDate:
+                  type: string
+              required:
+              - address
+              - dateOfBirth
+              - email
+              - name
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  address:
+                    type: string
+                  dateOfBirth:
+                    type: string
+components:
+  schemas:
+    PatientRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 0
+        email:
+          type: string
+          format: email
+          minLength: 1
+        address:
+          type: string
+          minLength: 1
+        dateOfBirth:
+          type: string
+          minLength: 1
+        registeredDate:
+          type: string
+      required:
+      - address
+      - dateOfBirth
+      - email
+      - name
+    PatientResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        dateOfBirth:
+          type: string
