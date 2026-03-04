@@ -1,8 +1,16 @@
 # 🏥 Patient Management System
+![Java](https://img.shields.io/badge/Java-21-orange?style=flat-square&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.x-6DB33F?style=flat-square&logo=springboot)
+![Spring Cloud Gateway](https://img.shields.io/badge/API_Gateway-Spring_Cloud-6DB33F?style=flat-square&logo=spring)
+![Kafka](https://img.shields.io/badge/Kafka-Event_Streaming-231F20?style=flat-square&logo=apachekafka)
+![gRPC](https://img.shields.io/badge/gRPC-Protobuf-4285F4?style=flat-square&logo=google)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=flat-square&logo=postgresql)
+![Docker](https://img.shields.io/badge/Docker-Containerised-2496ED?style=flat-square&logo=docker)
 
 A production-style **microservices** backend for managing patients, built with Spring Boot. Features an API Gateway, gRPC inter-service communication, Kafka event streaming, and PostgreSQL persistence.
 
 ---
+
 
 ## 🏗️ Architecture
 
