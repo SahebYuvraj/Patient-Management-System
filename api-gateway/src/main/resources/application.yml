@@ -3,28 +3,46 @@ server:
 
 
 spring:
+  application:
+    name: api-gateway
   cloud:
     gateway:
       routes:
         ## REST ClIENT -> http://localhost:4004/api/patients
-        ## API GATEWAY -> http://localhost:4004/patients
+        ## API GATEWAY -> http://localhost:4000/patients
         ## PATIENT SERVICE (SPRING BOOT APP) -> /patients -> Patients Array
         ## CRUD
         - id: patient-service-route
-          uri: http://patient-service:4002
+          uri: http://patient-service:4000
           predicates:
-            - Path=/api/patients/**
+            - Path=/api/patients,/api/patients/**
           filters:
               - StripPrefix=1
+              - AddResponseHeader=X-Gateway-Route, patient-service-route
+
 
         ## REST ClIENT -> http://localhost:4004/api-docs/patients
         ## API GATEWAY -> http://patient-service:4002/v3/api-docs
         ##API DOCS endpoint
         - id: api-docs-patient-route
-          uri: http://patient-service:4002
+          uri: http://patient-service:4000
           predicates:
             - Path=/api-docs/patients
           filters:
             - RewritePath=/api-docs/patients,/v3/api-docs
+            - AddResponseHeader=X-Gateway-Route, api-docs-patient-route
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      enabled: true
 
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: DEBUG
+    reactor.netty.http.client: DEBUG
