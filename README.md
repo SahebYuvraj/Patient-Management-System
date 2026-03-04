@@ -167,3 +167,59 @@ patient-management/
 
 - The gateway uses Docker hostnames (`patient-service`, `billing-service`) — these resolve inside Docker network only
 - Running services locally requires updating URIs in `application.yml` to `localhost`
+
+---
+
+## 🧠 What I Learned
+
+This project was genuinely fun and I really wanted to understand how production backend systems are structured. Here's what I took away:
+
+### Spring Boot & CRUD
+- How to properly structure a Spring Boot app beyond just making endpoints work
+- Using validation groups to apply different rules on create vs update
+- Global exception handling with `@RestControllerAdvice` instead of scattering try/catch everywhere
+- DTOs as a boundary layer — keeping your internal model separate from what you expose
+
+### Docker
+- Docker was something I never got a proper chance to learn at uni — this project changed that
+- Understanding how containers communicate via an internal Docker network (and why `localhost` doesn't work between containers)
+- Writing Dockerfiles for Spring Boot services and wiring them together
+- How services discover each other by container name rather than IP address
+
+### Microservices Architecture
+- The real difference between monolithic and microservices — not just theoretically but feeling it when you have to think about how services talk to each other
+- Each service owning its own data and responsibility, rather than one giant codebase doing everything
+- The tradeoffs are real — microservices adds complexity, but the separation of concerns and independent deployability makes it worth it at scale
+- How an API Gateway acts as the single entry point and why that matters for routing, security, and observability
+
+### gRPC
+- Completely new to me before this — gRPC uses HTTP/2 under the hood which means multiplexed streams, lower latency, and binary serialisation via Protobuf instead of JSON
+- Defining contracts via `.proto` files first and generating code from them — a different mindset to REST
+- Why gRPC makes sense for internal service-to-service calls where performance matters, while REST still makes sense for public-facing APIs
+
+### Kafka
+- Kafka was brand new to me — I initially associated it with something like MQTT or basic pub/sub messaging
+- Kafka is fundamentally different: it's a distributed log, messages are persisted and replayable, not just fire-and-forget
+- Understanding producers, consumers, topics, and serialisation (Protobuf over the wire)
+- How the analytics service could consume patient events independently without the patient service knowing or caring
+
+### Swagger / OpenAPI
+- How SpringDoc auto-generates an OpenAPI spec from your annotations
+- Routing the `/api-docs` endpoint through the gateway so everything is accessible from one place
+- How useful it is to have a live, accurate API spec rather than maintaining docs manually
+
+### General Backend Confidence
+- I used to feel like I always needed a frontend to show that something was working — this project broke that habit
+- Debugging distributed systems across multiple services taught me more about how things actually fail than any tutorial ever did
+- Reading logs, tracing requests through the gateway, using the actuator
+---
+
+## 🔜 What I'd Improve / Next Steps
+
+- **Authentication** — adding JWT-based auth at the gateway level so all services are protected without each one implementing it separately
+- **Testing** — this was one of the harder parts of the project, especially tracking down `pom.xml` dependency issues. I want to invest more in proper integration tests and get more systematic about debugging
+- **AWS deployment** — I recently completed my AWS course and want to deploy this properly, likely with ECS or EKS for the containers and MSK for managed Kafka
+- **Experiment more independently** — this was a guided project (big credit to **Chris Blakely** for teaching it end to end), and I learned a huge amount from working through it properly rather than vibe coding the whole thing. But the next step is taking these concepts and building something from scratch on my own terms maybe even building something new like the app
+
+> In the age of AI, a lot of this could be generated in minutes. But understanding the architecture decisions, the tradeoffs, and why things break the way they do I feel this part can't be skipped. That's what made this worth doing.Going forward I'll definitely try doing something bigger :).
+
