@@ -13,9 +13,9 @@ public class KafkaConsumer {
     private static final Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
 
     @KafkaListener(topics = "patient",groupId = "analytics-service")
-    public void consumeEvent(byte[] event) {
+    public void consumeEvent(byte[] bytes) {
         try {
-            PatientEvent patientEvent = PatientEvent.parseFrom(event);
+            PatientEvent patientEvent = PatientEvent.parseFrom(bytes);
             // ... perform analytics on patientEvent
             log.info("Recieved event: [PatientId:{}, PatientName:{}, PatientEmail:{}]",patientEvent.getPatientId(),
                     patientEvent.getName(),patientEvent.getEmail());
